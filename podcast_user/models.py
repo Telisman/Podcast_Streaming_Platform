@@ -11,3 +11,26 @@ class Country(models.Model):
 
     def __str__(self):
         return self.country_name
+
+class PodcastUser(AbstractUser):
+    user_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    username = models.CharField(max_length=30,unique=True)
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',message="Phone number must be in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True, null=True, unique=True, default='+')
+    date_of_birth = models.DateField(blank=True, null=True)
+    date_of_join = models.DateField(blank=True, null=True,default=date.today)
+    address = models.CharField(max_length=100,blank=True, null=True)
+    image = models.ImageField(upload_to='user_images/', blank=True, null=True)
+    city_name = models.CharField(max_length=30, blank=True, null=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
+    postal_code = models.CharField(max_length=10,blank=True, null=True)
+    is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    email = models.EmailField(max_length=30,
+                              validators=[RegexValidator(regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.["r"a-zA-Z0-9-.]+$",
+                                                         message='please enter the correct format')],unique=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name','username']
