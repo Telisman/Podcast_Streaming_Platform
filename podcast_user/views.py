@@ -4,7 +4,11 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import PodcastUser
 from datetime import datetime, timedelta
+from django.views.generic import ListView
 
+
+def Navbar_footer_menu(request):
+    return render(request, "pages/navbar_footer_menu.html", {})
 
 def login_and_register(request):
     if request.method == 'POST':
@@ -29,8 +33,30 @@ def logout_view(request):
     return redirect('login_and_register')
 
 
+def PodcastDashboard(request):
+    thirty_days_ago = datetime.now() - timedelta(days=30)
+    new_users = PodcastUser.objects.filter(date_of_join__gte=thirty_days_ago)
+    return render(request, 'pages/users/podcast_dashboard.html',{'new_users': new_users})
 
-def test(request):
-    form = CustomUserCreationForm()
-    return render(request, 'pages/test.html', {'form': form})
+
+
+def FAQ(request):
+    return render(request,'pages/faq.html')
+
+
+#
+# class PodcastDashboard(ListView):
+#     model = PodcastUser
+#     template_name = "pages/users/podcast_dashboard.html"
+#     context_object_name = 'profile'
+#
+#     def get_queryset(self):  # get_queryset biblioteka iz paythona
+#         return PodcastUser.objects.all()
+
+
+
+
+# def test(request):
+#     form = CustomUserCreationForm()
+#     return render(request, 'pages/test.html', {'form': form})
 

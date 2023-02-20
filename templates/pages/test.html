@@ -16,3 +16,30 @@
 {% endblock %}
 </body>
 </html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% block content %}
+{% for users in new_users %}
+ <div class="col-md-4" data-aos="fade-up">
+            <div class="icon-box">
+              <div class="icon">
+                  {% if users.image %}
+                    <img class="mx-auto"  style="height: 100px; width:100px; display: block; border-radius: 50%; " src="{{ users.image.url }}" data-holder-rendered="true">
+                    {% endif %}
+              </div>
+              <h4 class="title">{{ users.username }}</h4>
+              <p class="description">Ime: {{ users.first_name }}</p>
+              <p class="description">Prezime: {{ users.last_name }}</p>
+            </div>
+          </div>
+        {% endfor %}
+{% endblock %}
+</body>
+</html>
