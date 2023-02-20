@@ -40,8 +40,8 @@ def PodcastDashboard(request):
 
 
 
-def FAQ(request):
-    return render(request,'pages/faq.html')
+# def FAQ(request):
+#     return render(request,'pages/faq.html')
 
 
 #
