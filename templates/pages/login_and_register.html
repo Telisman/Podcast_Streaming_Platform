@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+	{% block css %}
+		<link href="{% static 'css/login_and_register.css' %}" rel="stylesheet">
+	{% endblock %}
+
+</head>
+<body>
+{% block content %}
+
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form method="post" action="">
+        {% csrf_token %}
+        <h1>Create Account</h1>
+        <span>or use your email for registration</span>
+        <input type="email" name="email" autofocus="" required="" id="id_email" placeholder="email">
+        <input type="text" name="username" required="" id="id_username" placeholder="username">
+        <input type="text" name="first_name" required="" id="id_first_name" placeholder="First name">
+        <input type="text" name="last_name" required="" id="id_last_name" placeholder="Last name">
+        <input type="text" name="phone_number" id="id_phone_number" placeholder="Phone number">
+        <input type="password" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="Password">
+        <input type="password" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="Repeat  password">
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+
+    <div class="form-container sign-in-container">
+      <form method="post" action="">
+        {% csrf_token %}
+        <h1>Sign in</h1>
+        <span>or use your account</span>
+        <input type="email" name="username"  required="" id="id_username" placeholder="Email">
+        <input type="password" name="password" autocomplete="current-password" required="" id="id_password" placeholder="Password">
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login with your personal info</p>
+          <button class="ghost" id="signIn" onClick="openSignIn()">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+          <p>Create your podcast show or listen to one of the current podcasters streaming live, on various topics.</p>
+          <button class="ghost" id="signUp" onClick="openSignUp()">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}
+
+    {% block javascript %}
+        <script src="{% static 'js/login_and_register.js' %}"></script>
+    {% endblock %}
+</html>
+
+
+=
