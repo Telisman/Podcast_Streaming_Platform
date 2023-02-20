@@ -36,6 +36,8 @@ body {
   overflow: hidden;
   font-size: 100%;
   text-align: center;
+  margin: 0;
+
 }
 .criterion {
   font-size: 1.6rem;

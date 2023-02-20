@@ -27,3 +27,10 @@ def login_and_register(request):
 def logout_view(request):
     logout(request)
     return redirect('login_and_register')
+
+
+
+def test(request):
+    form = CustomUserCreationForm()
+    return render(request, 'pages/test.html', {'form': form})
+

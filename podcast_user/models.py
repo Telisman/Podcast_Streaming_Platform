@@ -33,4 +33,17 @@ class PodcastUser(AbstractUser):
                               validators=[RegexValidator(regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.["r"a-zA-Z0-9-.]+$",
                                                          message='please enter the correct format')],unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name','username']
+    REQUIRED_FIELDS = ['first_name', 'last_name','username','country']
+
+    def create_superuser(self, email, password, **extra_fields):
+        if self.filter(is_superuser=True).exists():
+            raise ValueError('Superuser already exists')
+        # set some default values for the superuser
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        # create the superuser with the provided email and password
+        return self._create_user(email=email, password=password, **extra_fields)
+
+    def __str__(self):
+        return f"{self.username} ({self.user_id})"
