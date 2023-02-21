@@ -40,23 +40,10 @@ def PodcastDashboard(request):
 
 
 
-# def FAQ(request):
-#     return render(request,'pages/faq.html')
 
 
-#
-# class PodcastDashboard(ListView):
-#     model = PodcastUser
-#     template_name = "pages/users/podcast_dashboard.html"
-#     context_object_name = 'profile'
-#
-#     def get_queryset(self):  # get_queryset biblioteka iz paythona
-#         return PodcastUser.objects.all()
+def profile_page(request):
+    return render(request,'pages/users/profile.html')
 
-
-
-
-# def test(request):
-#     form = CustomUserCreationForm()
-#     return render(request, 'pages/test.html', {'form': form})
-
+def users_list(request):
+    return render(request,'pages/users/contacts.html')

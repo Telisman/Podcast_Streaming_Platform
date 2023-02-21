@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
     <!-- Main content -->
     <section class="content">
       <!-- Default box -->
@@ -12,32 +12,32 @@
         <div class="card-body row">
           <div class="col-5 text-center d-flex align-items-center justify-content-center">
             <div class="">
-              <h2>Admin<strong>LTE</strong></h2>
-              <p class="lead mb-5">123 Testing Ave, Testtown, 9876 NA<br>
-                Phone: +1 234 56789012
+              <h2>Admin<strong> Davor Telisman</strong></h2>
+              <p class="lead mb-5">Belgrade Serbia <br>
+                Phone: +381 69 617 675
               </p>
             </div>
           </div>
           <div class="col-7">
-            <div class="form-group">
-              <label for="inputName">Name</label>
-              <input type="text" id="inputName" class="form-control" />
-            </div>
-            <div class="form-group">
-              <label for="inputEmail">E-Mail</label>
-              <input type="email" id="inputEmail" class="form-control" />
-            </div>
-            <div class="form-group">
-              <label for="inputSubject">Subject</label>
-              <input type="text" id="inputSubject" class="form-control" />
-            </div>
-            <div class="form-group">
-              <label for="inputMessage">Message</label>
-              <textarea id="inputMessage" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="form-group">
+            <form action="" method="POST" class="form-control" enctype="multipart/form-data">
+                {% csrf_token %}
+
+              <label for="id_name" style="border:None;">Name</label>
+              <input type="text" name="name" class="form-control"  required="" id="id_name" />
+
+              <label for="id_email">E-Mail</label>
+              <input type="email" name="email" class="form-control"  required="" id="id_email" />
+
+
+              <label for="id_subject">Subject</label>
+              <input type="text" name="subject" class="form-control"  required="" id="id_subject" />
+
+              <label for="id_message">Message</label>
+              <textarea name="message" cols="40" rows="10" class="form-control" required="" id="id_message" spellcheck="false" style="height: 255px;"></textarea>
+
               <input type="submit" class="btn btn-primary" value="Send message">
-            </div>
+
+              </form>
           </div>
         </div>
       </div>

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "podcast_user",
+    "basic_pages",
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,13 @@ STATICFILES_DIRS =[
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'podcast_user.PodcastUser'
+
+
+# email settings gmail contact form
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'davortelisman@gmail.com'
+EMAIL_HOST_PASSWORD = 'phmpbovuuybptdur'
+EMAIL_USE_TLS = True
