@@ -52,12 +52,16 @@ def PodcastDashboard(request):
 
 @login_required
 def profile_page(request):
-    user_info = UserInfo.objects.get(user=request.user)
+    try:
+        user_info = UserInfo.objects.get(user=request.user)
+    except UserInfo.DoesNotExist:
+        user_info = None
+
     one_year_ago = date.today() - timedelta(days=365)
-    blog_posts = Podcast_Blog.objects.filter(blog_user=request.user, time_of_blog__gte=one_year_ago).order_by('-time_of_blog')
-    return render(request, 'pages/users/profile.html', {'user': request.user, 'user_info': user_info, 'blog_posts': blog_posts})
+    blog_posts = Podcast_Blog.objects.filter(blog_user=request.user, time_of_blog__gte=one_year_ago).order_by(
+        '-time_of_blog')
 
-
+    return render(request, 'pages/users/profile.html',{'user': request.user, 'user_info': user_info, 'blog_posts': blog_posts})
 
 
 def users_list(request):
