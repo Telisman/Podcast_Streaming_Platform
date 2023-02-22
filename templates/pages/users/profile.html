@@ -3,28 +3,28 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-
           <div class="col-md-3">
 
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="../../dist/img/user4-128x128.jpg"
-                       alt="User profile picture">
+                    {% if user.image %}
+                      <img class="profile-user-img img-fluid img-circle"
+                           src="{{ user.image.url }}"
+                           alt="User profile picture">
+                    {% endif %}
                 </div>
 
-                <h3 class="profile-username text-center">{{ user.username }}</h3>
+                <h3 class="profile-username text-center">{{ user.username}}</h3>
 
-                <p class="text-muted text-center">{{ user.last_name }} {{ user.first_name }}</p>
+                <p class="text-muted text-center">{{ user.first_name }} {{ user.last_name}}</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
@@ -53,29 +53,28 @@
               <div class="card-body">
                 <strong><i class="fas fa-book mr-1"></i> Education</strong>
 
-                <p class="text-muted">{{ user_info.education }}</p>
+                <p class="text-muted">
+                {{ user_info.education }}
+                </p>
 
                 <hr>
 
                 <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
-                <p class="text-muted"> {{ user.city }} {{ user.address }} {{ user.country }}</p>
+                <p class="text-muted">{{ user.city_name }} , {{ user.country }} , {{user.postal_code}}</p>
 
                 <hr>
 
                 <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
 
                 <p class="text-muted">
-                  <span class="tag tag-danger">UI Design</span>
-                  <span class="tag tag-success">Coding</span>
-                  <span class="tag tag-info">Javascript</span>
-                  <span class="tag tag-warning">PHP</span>
-                  <span class="tag tag-primary">Node.js</span>
+                  <span class="tag tag-danger">{{user_info.skills}}</span>
+
                 </p>
 
                 <hr>
 
-                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+                <strong><i class="far fa-file-alt mr-1"></i> Bio:</strong>
 
                 <p class="text-muted">{{ user_info.bio }}</p>
               </div>
@@ -84,297 +83,293 @@
             <!-- /.card -->
           </div>
           <!-- /.col -->
-<!--          <div class="col-md-9">-->
-<!--            <div class="card">-->
-<!--              <div class="card-header p-2">-->
-<!--                <ul class="nav nav-pills">-->
-<!--                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>-->
-<!--                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>-->
-<!--                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>-->
-<!--                </ul>-->
-<!--              </div>&lt;!&ndash; /.card-header &ndash;&gt;-->
-<!--&lt;!&ndash;              <div class="card-body">&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="tab-content">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <div class="active tab-pane" id="activity">&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; Post &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="post">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="user-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="username">&ndash;&gt;-->
-<!--&lt;!&ndash;                          <a href="#">Jonathan Burke Jr.</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="description">Shared publicly - 7:30 PM today</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      &lt;!&ndash; /.user-block &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                      <p>&ndash;&gt;-->
-<!--&lt;!&ndash;                        Lorem ipsum represents a long-held tradition for designers,&ndash;&gt;-->
-<!--&lt;!&ndash;                        typographers and the like. Some people hate it and argue for&ndash;&gt;-->
-<!--&lt;!&ndash;                        its demise, but others ignore the hate as they create awesome&ndash;&gt;-->
-<!--&lt;!&ndash;                        tools to help create filler text for everyone from bacon lovers&ndash;&gt;-->
-<!--&lt;!&ndash;                        to Charlie Sheen fans.&ndash;&gt;-->
-<!--&lt;!&ndash;                      </p>&ndash;&gt;-->
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="active tab-pane" id="activity">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                        <span class="username">
+                          <a href="#">Jonathan Burke Jr.</a>
+                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                        </span>
+                        <span class="description">Shared publicly - 7:30 PM today</span>
+                      </div>
+                      <!-- /.user-block -->
+                      <p>
+                        Lorem ipsum represents a long-held tradition for designers,
+                        typographers and the like. Some people hate it and argue for
+                        its demise, but others ignore the hate as they create awesome
+                        tools to help create filler text for everyone from bacon lovers
+                        to Charlie Sheen fans.
+                      </p>
 
-<!--&lt;!&ndash;                      <p>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="float-right">&ndash;&gt;-->
-<!--&lt;!&ndash;                          <a href="#" class="link-black text-sm">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <i class="far fa-comments mr-1"></i> Comments (5)&ndash;&gt;-->
-<!--&lt;!&ndash;                          </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </p>&ndash;&gt;-->
+                      <p>
+                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
+                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
+                        <span class="float-right">
+                          <a href="#" class="link-black text-sm">
+                            <i class="far fa-comments mr-1"></i> Comments (5)
+                          </a>
+                        </span>
+                      </p>
 
-<!--&lt;!&ndash;                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; /.post &ndash;&gt;&ndash;&gt;-->
+                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                    </div>
+                    <!-- /.post -->
 
-<!--&lt;!&ndash;                    &lt;!&ndash; Post &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    <div class="post clearfix">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="user-block">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <span class="username">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <a href="#">Sarah Ross</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <span class="description">Sent you a message - 3 days ago</span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; /.user-block &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <p>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        Lorem ipsum represents a long-held tradition for designers,&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        typographers and the like. Some people hate it and argue for&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        its demise, but others ignore the hate as they create awesome&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        tools to help create filler text for everyone from bacon lovers&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        to Charlie Sheen fans.&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </p>&ndash;&gt;&ndash;&gt;-->
+                    <!-- Post -->
+                    <div class="post clearfix">
+                      <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
+                        <span class="username">
+                          <a href="#">Sarah Ross</a>
+                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                        </span>
+                        <span class="description">Sent you a message - 3 days ago</span>
+                      </div>
+                      <!-- /.user-block -->
+                      <p>
+                        Lorem ipsum represents a long-held tradition for designers,
+                        typographers and the like. Some people hate it and argue for
+                        its demise, but others ignore the hate as they create awesome
+                        tools to help create filler text for everyone from bacon lovers
+                        to Charlie Sheen fans.
+                      </p>
 
-<!--&lt;!&ndash;&lt;!&ndash;                      <form class="form-horizontal">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="input-group input-group-sm mb-0">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <input class="form-control form-control-sm" placeholder="Response">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="input-group-append">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <button type="submit" class="btn btn-danger">Send</button>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </form>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; /.post &ndash;&gt;&ndash;&gt;-->
+                      <form class="form-horizontal">
+                        <div class="input-group input-group-sm mb-0">
+                          <input class="form-control form-control-sm" placeholder="Response">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-danger">Send</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <!-- /.post -->
 
-<!--&lt;!&ndash;                    &lt;!&ndash; Post &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    <div class="post">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="user-block">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <span class="username">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <a href="#">Adam Jones</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <span class="description">Posted 5 photos - 5 days ago</span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; /.user-block &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="row mb-3">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="col-sm-6">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        &lt;!&ndash; /.col &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="col-sm-6">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <div class="col-sm-6">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <img class="img-fluid mb-3" src="../../dist/img/photo2.png" alt="Photo">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <img class="img-fluid" src="../../dist/img/photo3.jpg" alt="Photo">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            &lt;!&ndash; /.col &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <div class="col-sm-6">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg" alt="Photo">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            &lt;!&ndash; /.col &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          &lt;!&ndash; /.row &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        &lt;!&ndash; /.col &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; /.row &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
+                        <span class="username">
+                          <a href="#">Adam Jones</a>
+                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                        </span>
+                        <span class="description">Posted 5 photos - 5 days ago</span>
+                      </div>
+                      <!-- /.user-block -->
+                      <div class="row mb-3">
+                        <div class="col-sm-6">
+                          <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6">
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <img class="img-fluid mb-3" src="../../dist/img/photo2.png" alt="Photo">
+                              <img class="img-fluid" src="../../dist/img/photo3.jpg" alt="Photo">
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-6">
+                              <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg" alt="Photo">
+                              <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
+                            </div>
+                            <!-- /.col -->
+                          </div>
+                          <!-- /.row -->
+                        </div>
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
 
-<!--&lt;!&ndash;&lt;!&ndash;                      <p>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <span class="float-right">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <a href="#" class="link-black text-sm">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <i class="far fa-comments mr-1"></i> Comments (5)&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </p>&ndash;&gt;&ndash;&gt;-->
+                      <p>
+                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
+                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
+                        <span class="float-right">
+                          <a href="#" class="link-black text-sm">
+                            <i class="far fa-comments mr-1"></i> Comments (5)
+                          </a>
+                        </span>
+                      </p>
 
-<!--&lt;!&ndash;&lt;!&ndash;                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    &lt;!&ndash; /.post &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  &lt;!&ndash; /.tab-pane &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  <div class="tab-pane" id="timeline">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    &lt;!&ndash; The timeline &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    <div class="timeline timeline-inverse">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; timeline time label &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="time-label">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <span class="bg-danger">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          10 Feb. 2014&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; /.timeline-label &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <i class="fas fa-envelope bg-primary"></i>&ndash;&gt;&ndash;&gt;-->
+                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                    </div>
+                    <!-- /.post -->
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="timeline">
+                    <!-- The timeline -->
+                    <div class="timeline timeline-inverse">
+                      <!-- timeline time label -->
+                      <div class="time-label">
+                        <span class="bg-danger">
+                          10 Feb. 2014
+                        </span>
+                      </div>
+                      <!-- /.timeline-label -->
+                      <!-- timeline item -->
+                      <div>
+                        <i class="fas fa-envelope bg-primary"></i>
 
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="timeline-item">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <span class="time"><i class="far fa-clock"></i> 12:05</span>&ndash;&gt;&ndash;&gt;-->
+                        <div class="timeline-item">
+                          <span class="time"><i class="far fa-clock"></i> 12:05</span>
 
-<!--&lt;!&ndash;&lt;!&ndash;                          <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>&ndash;&gt;&ndash;&gt;-->
+                          <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
 
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="timeline-body">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            weebly ning heekya handango imeem plugg dopplr jibjab, movity&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            quora plaxo ideeli hulu weebly balihoo...&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="timeline-footer">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <a href="#" class="btn btn-primary btn-sm">Read more</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <a href="#" class="btn btn-danger btn-sm">Delete</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <i class="fas fa-user bg-info"></i>&ndash;&gt;&ndash;&gt;-->
+                          <div class="timeline-body">
+                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                            weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                            quora plaxo ideeli hulu weebly balihoo...
+                          </div>
+                          <div class="timeline-footer">
+                            <a href="#" class="btn btn-primary btn-sm">Read more</a>
+                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- END timeline item -->
+                      <!-- timeline item -->
+                      <div>
+                        <i class="fas fa-user bg-info"></i>
 
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="timeline-item">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>&ndash;&gt;&ndash;&gt;-->
+                        <div class="timeline-item">
+                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
 
-<!--&lt;!&ndash;&lt;!&ndash;                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </h3>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <i class="fas fa-comments bg-warning"></i>&ndash;&gt;&ndash;&gt;-->
+                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
+                          </h3>
+                        </div>
+                      </div>
+                      <!-- END timeline item -->
+                      <!-- timeline item -->
+                      <div>
+                        <i class="fas fa-comments bg-warning"></i>
 
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="timeline-item">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>&ndash;&gt;&ndash;&gt;-->
+                        <div class="timeline-item">
+                          <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
 
-<!--&lt;!&ndash;&lt;!&ndash;                          <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>&ndash;&gt;&ndash;&gt;-->
+                          <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
 
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="timeline-body">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            Take me to your leader!&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            Switzerland is small and neutral!&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            We are more like Germany, ambitious and misunderstood!&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="timeline-footer">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; timeline time label &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="time-label">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <span class="bg-success">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          3 Jan. 2014&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </span>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; /.timeline-label &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <i class="fas fa-camera bg-purple"></i>&ndash;&gt;&ndash;&gt;-->
+                          <div class="timeline-body">
+                            Take me to your leader!
+                            Switzerland is small and neutral!
+                            We are more like Germany, ambitious and misunderstood!
+                          </div>
+                          <div class="timeline-footer">
+                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- END timeline item -->
+                      <!-- timeline time label -->
+                      <div class="time-label">
+                        <span class="bg-success">
+                          3 Jan. 2014
+                        </span>
+                      </div>
+                      <!-- /.timeline-label -->
+                      <!-- timeline item -->
+                      <div>
+                        <i class="fas fa-camera bg-purple"></i>
 
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="timeline-item">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <span class="time"><i class="far fa-clock"></i> 2 days ago</span>&ndash;&gt;&ndash;&gt;-->
+                        <div class="timeline-item">
+                          <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
 
-<!--&lt;!&ndash;&lt;!&ndash;                          <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>&ndash;&gt;&ndash;&gt;-->
+                          <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
 
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="timeline-body">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <img src="https://placehold.it/150x100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <img src="https://placehold.it/150x100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <img src="https://placehold.it/150x100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <img src="https://placehold.it/150x100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      &lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <i class="far fa-clock bg-gray"></i>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  &lt;!&ndash; /.tab-pane &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+                          <div class="timeline-body">
+                            <img src="https://placehold.it/150x100" alt="...">
+                            <img src="https://placehold.it/150x100" alt="...">
+                            <img src="https://placehold.it/150x100" alt="...">
+                            <img src="https://placehold.it/150x100" alt="...">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- END timeline item -->
+                      <div>
+                        <i class="far fa-clock bg-gray"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
 
-<!--&lt;!&ndash;&lt;!&ndash;                  <div class="tab-pane" id="settings">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    <form class="form-horizontal">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="form-group row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="col-sm-10">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <input type="email" class="form-control" id="inputName" placeholder="Name">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="form-group row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="col-sm-10">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="form-group row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="col-sm-10">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <input type="text" class="form-control" id="inputName2" placeholder="Name">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="form-group row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="col-sm-10">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="form-group row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="col-sm-10">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="form-group row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="offset-sm-2 col-sm-10">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <div class="checkbox">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            <label>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                            </label>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      <div class="form-group row">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        <div class="offset-sm-2 col-sm-10">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                          <button type="submit" class="btn btn-danger">Submit</button>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                      </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    </form>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                  </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash; /.tab-pane &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                &lt;!&ndash; /.tab-content &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              </div>&lt;!&ndash; /.card-body &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--            &lt;!&ndash; /.card &ndash;&gt;-->
-<!--          </div>-->
-<!--          &lt;!&ndash; /.col &ndash;&gt;-->
-<!--        </div>-->
+                  <div class="tab-pane" id="settings">
+                    <form class="form-horizontal">
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" id="inputName" placeholder="Name">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                          <button type="submit" class="btn btn-danger">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
-<!--    </section>-->
+    </section>
     <!-- /.content -->
-  <!-- /.content-wrapper -->
-
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
   </div>
+
+
+
+
 
 {% endif %}
 {% endblock %}

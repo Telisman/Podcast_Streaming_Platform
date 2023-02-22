@@ -50,5 +50,4 @@ def profile_page(request):
         return redirect('login')
 
 def users_list(request):
-
     return render(request,'pages/users/contacts.html')
