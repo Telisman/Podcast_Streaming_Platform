@@ -1,10 +1,11 @@
 from django.contrib.auth import login,logout
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm,UserEditForm,PasswordForm
 from .models import PodcastUser, UserInfo
 from datetime import datetime, timedelta,date
 from django.contrib.auth.decorators import login_required
 from podcast_blog.models import Podcast_Blog
+from django.contrib import messages
 
 def Navbar_footer_menu(request):
     return render(request, "pages/navbar_footer_menu.html", {})
@@ -52,7 +53,32 @@ def profile_page(request):
     for post in blog_posts:
         like_counts.append(post.likes.count())
 
-    return render(request, 'pages/users/profile.html',{'user': request.user, 'user_info': user_info, 'blog_posts': blog_posts, 'like_counts':like_counts})
+    if request.method == 'POST':
+        user_form = UserEditForm(request.POST, request.FILES, instance=request.user)
+        password_form = PasswordForm(request.user, request.POST)
+
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Your profile has been updated.')
+            return redirect('profile_page')
+
+        if password_form.is_valid():
+            password_form.save()
+            messages.success(request, 'Your password has been updated.')
+            return redirect('profile_page')
+
+    else:
+        user_form = UserEditForm(instance=request.user)
+        password_form = PasswordForm(request.user)
+
+    return render(request, 'pages/users/profile.html', {
+        'user': request.user,
+        'user_info': user_info,
+        'blog_posts': blog_posts,
+        'like_counts': like_counts,
+        'user_form': user_form,
+        'password_form': password_form,
+    })
 
 
 def users_list(request):
