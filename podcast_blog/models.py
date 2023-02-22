@@ -8,6 +8,8 @@ class Podcast_Blog(models.Model):
     time_of_blog = models.DateTimeField(default=datetime.now)
     blog_text = models.TextField(default="Must be something")
     blog_user = models.ForeignKey(PodcastUser,on_delete=models.CASCADE,blank=False, null=False)
+    likes = models.ManyToManyField(PodcastUser, related_name='liked_blogs', blank=True)
+
 
     def __str__(self):
         return f"{self.id} , {self.name}, {self.blog_user} "
