@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.shortcuts import render, redirect,get_object_or_404
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import PodcastUser
+from .models import PodcastUser, UserInfo
 from datetime import datetime, timedelta
 from django.views.generic import ListView
 
@@ -43,7 +43,12 @@ def PodcastDashboard(request):
 
 
 def profile_page(request):
-    return render(request,'pages/users/profile.html')
+    if request.user.is_authenticated:
+        user_info = UserInfo.objects.get(user=request.user)
+        return render(request, 'pages/users/profile.html', {'user': request.user, 'user_info': user_info})
+    else:
+        return redirect('login')
 
 def users_list(request):
+
     return render(request,'pages/users/contacts.html')

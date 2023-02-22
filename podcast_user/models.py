@@ -47,3 +47,15 @@ class PodcastUser(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.user_id})"
+
+
+class UserInfo(models.Model):
+    user = models.ForeignKey(PodcastUser, on_delete=models.CASCADE,blank=False, null=False)
+    bio = models.TextField()
+    language = models.CharField(max_length=25, null=True,blank=True)
+    education = models.CharField(max_length=100, null=True,blank=True)
+    skills = models.CharField(max_length=25, null=True,blank=True)
+
+    def __str__(self):
+        return f"{self.user})"
+
