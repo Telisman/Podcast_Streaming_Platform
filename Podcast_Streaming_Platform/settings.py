@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "podcast_user",
     "basic_pages",
+    "podcast_blog",
 ]
 
 MIDDLEWARE = [

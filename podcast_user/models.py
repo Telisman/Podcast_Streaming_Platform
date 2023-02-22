@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin,Abstra
 from django.core.validators import RegexValidator
 from datetime import date
 
-
 class Country(models.Model):
     country_id = models.AutoField(primary_key=True)
     country_name = models.CharField(max_length=100)
@@ -48,7 +47,6 @@ class PodcastUser(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.user_id})"
 
-
 class UserInfo(models.Model):
     user = models.ForeignKey(PodcastUser, on_delete=models.CASCADE,blank=False, null=False)
     bio = models.TextField()
@@ -58,4 +56,6 @@ class UserInfo(models.Model):
 
     def __str__(self):
         return f"{self.user})"
+
+
 
