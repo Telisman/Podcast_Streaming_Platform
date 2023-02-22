@@ -1,10 +1,8 @@
-from django.contrib.auth import authenticate, login,logout
-from django.shortcuts import render, redirect,get_object_or_404
+from django.contrib.auth import login,logout
+from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
-from django.http import HttpResponse, HttpResponseRedirect
 from .models import PodcastUser, UserInfo
 from datetime import datetime, timedelta,date
-from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from podcast_blog.models import Podcast_Blog
 
@@ -40,16 +38,6 @@ def PodcastDashboard(request):
     return render(request, 'pages/users/podcast_dashboard.html',{'new_users': new_users})
 
 
-
-
-#
-# def profile_page(request):
-#     if request.user.is_authenticated:
-#         user_info = UserInfo.objects.get(user=request.user)
-#         return render(request, 'pages/users/profile.html', {'user': request.user, 'user_info': user_info})
-#     else:
-#         return redirect('login')
-
 @login_required
 def profile_page(request):
     try:
@@ -60,8 +48,11 @@ def profile_page(request):
     one_year_ago = date.today() - timedelta(days=365)
     blog_posts = Podcast_Blog.objects.filter(blog_user=request.user, time_of_blog__gte=one_year_ago).order_by(
         '-time_of_blog')
+    like_counts = []
+    for post in blog_posts:
+        like_counts.append(post.likes.count())
 
-    return render(request, 'pages/users/profile.html',{'user': request.user, 'user_info': user_info, 'blog_posts': blog_posts})
+    return render(request, 'pages/users/profile.html',{'user': request.user, 'user_info': user_info, 'blog_posts': blog_posts, 'like_counts':like_counts})
 
 
 def users_list(request):
