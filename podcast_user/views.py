@@ -57,5 +57,8 @@ def profile_page(request):
     blog_posts = Podcast_Blog.objects.filter(blog_user=request.user, time_of_blog__gte=one_year_ago).order_by('-time_of_blog')
     return render(request, 'pages/users/profile.html', {'user': request.user, 'user_info': user_info, 'blog_posts': blog_posts})
 
+
+
+
 def users_list(request):
     return render(request,'pages/users/contacts.html')

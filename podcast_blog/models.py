@@ -12,3 +12,13 @@ class Podcast_Blog(models.Model):
     def __str__(self):
         return f"{self.id} , {self.name}, {self.blog_user} "
 
+
+class BlogComment(models.Model):
+    id = models.AutoField(primary_key=True)
+    blog = models.ForeignKey(Podcast_Blog, on_delete=models.CASCADE, related_name='comments')
+    comment_text = models.TextField()
+    comment_user = models.ForeignKey(PodcastUser, on_delete=models.CASCADE, blank=False, null=False)
+    time_of_comment = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return f"{self.id}, {self.comment_text}, {self.comment_user}"

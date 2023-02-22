@@ -79,7 +79,7 @@ WSGI_APPLICATION = "Podcast_Streaming_Platform.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'podcast_streming_db',
+        'NAME': 'streming_db',
         'USER': 'root',
         'PASSWORD': 'Opke1987.',
         'HOST': '127.0.0.1',
