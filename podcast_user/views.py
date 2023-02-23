@@ -4,7 +4,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm,UserEditForm
 from .models import PodcastUser, UserInfo
 from datetime import datetime, timedelta,date
 from django.contrib.auth.decorators import login_required
-from podcast_blog.models import Podcast_Blog
+from podcast_blog.models import Podcast_Blog,BlogComment
 from django.contrib import messages
 from django.views.generic import ListView
 
@@ -103,22 +103,24 @@ def edit_user_info(request):
         })
     return render(request, 'pages/users/edit_user_info.html', {'form': form})
 
-# def user_list(request):
-#     users = PodcastUser.objects.all().order_by('username')
-#     user_info_list = []
-#     for user in users:
-#         try:
-#             user_info = UserInfo.objects.get(user=user)
-#         except UserInfo.DoesNotExist:
-#             user_info = None
-#         user_info_list.append(user_info)
-#
-#     context = {
-#         'users': zip(users, user_info_list),
-#     }
-#     return render(request, 'pages/users/contacts.html', context)
+
+@login_required
 def users_list(request):
     users = PodcastUser.objects.all().order_by('last_name')
     context = {'users': users}
     return render(request, 'pages/users/contacts.html', context)
 
+@login_required
+def user_detail(request, user_id):
+    user = get_object_or_404(PodcastUser, pk=user_id)
+    try:
+        user_info = UserInfo.objects.get(user=user)
+    except UserInfo.DoesNotExist:
+        user_info = ''
+    blogs = Podcast_Blog.objects.filter(blog_user=user).order_by('-time_of_blog')
+    blog_comments = []
+    for blog in blogs:
+        comments = BlogComment.objects.filter(blog=blog).order_by('-time_of_comment')
+        blog_comments.append((blog, comments))
+    context = {'user': user, 'user_info': user_info, 'blog_comments': blog_comments}
+    return render(request, 'pages/users//user_detail.html', context)

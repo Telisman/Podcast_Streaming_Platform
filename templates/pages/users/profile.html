@@ -114,10 +114,7 @@
                         <span class="description">Shared publicly date -<time>{{ post.time_of_blog|date:"d/m/Y" }}</time></span>
                       </div>
                       <!-- /.user-block -->
-                      <p>
-                        {{ post.blog_text}}
-                      </p>
-
+                      <p>{{ post.blog_text}} </p>
                       <p>
                         <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like {{ post.likes.count }}</a>
                         <span class="float-right">

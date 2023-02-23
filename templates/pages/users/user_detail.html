@@ -2,43 +2,10 @@
 {% load static %}
 {% block content %}
 {% if user.is_authenticated %}
- <h1>{{ user.username }}'s Profile</h1>
-  <h2>User Information</h2>
-  <ul>
-    <li>Name: {{ user.first_name }} {{ user.last_name }}</li>
-    <li>Email: {{ user.email }}</li>
-    <li>Phone: {{ user.phone_number }}</li>
-    <li>Address: {{ user.address }}</li>
-    <li>City: {{ user.city_name }}</li>
-    <li>Country: {{ user.country }}</li>
-    <li>Postal Code: {{ user.postal_code }}</li>
-  </ul>
 
-  <h2>User Info</h2>
-  <ul>
-    <li>Bio: {{ userinfo.bio }}</li>
-    <li>Language: {{ userinfo.language }}</li>
-    <li>Education: {{ userinfo.education }}</li>
-    <li>Skills: {{ userinfo.skills }}</li>
-  </ul>
-
-  <h2>Blog Posts</h2>
-  {% for blog in blogs %}
-    <h3>{{ blog.name }}</h3>
-    <p>{{ blog.blog_text }}</p>
-    <p>Posted by {{ blog.blog_user.username }} on {{ blog.time_of_blog }}</p>
-    <p>Likes: {{ blog.likes.count }}</p>
-    <ul>
-      {% for comment in blog.comments.all %}
-        <li>{{ comment.comment_text }} by {{ comment.comment_user.username }} on {{ comment.time_of_comment }}</li>
-      {% empty %}
-        <li>No comments yet</li>
-      {% endfor %}
-    </ul>
-  {% empty %}
-    <p>No blog posts yet</p>
-  {% endfor %}
 <div class="wrapper">
+  <!-- Navbar -->
+  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
@@ -50,26 +17,37 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                    {% if user.image %}
-                      <img class="profile-user-img img-fluid img-circle"
-                           src="{{ user.image.url }}"
-                           alt="User profile picture">
-                    {% endif %}
+                  {% if user.image %}
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="{{ user.image.url }}"
+                       alt="User profile picture">
+                  {% endif %}
                 </div>
 
                 <h3 class="profile-username text-center">{{ user.username }}</h3>
 
-                <p class="text-muted text-center">{{ user.first_name }} {{ user.last_name }}</p>
+                <p class="text-muted text-center">{{ user.first_name }}{{ user.last_name }}</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Followers</b> <a class="float-right">1,322</a>
+                    <strong><i class="fas fa fa-address-book mr-1"></i> Address: </strong>
+                     <p class="text-muted">{{ user.address }} , {{ user.city }} , {{ user.country }} , {{ user.postal_code }}</p>
                   </li>
                   <li class="list-group-item">
-                    <b>Following</b> <a class="float-right">543</a>
+                    <strong><i class="fas fa fa-phone mr-1"></i> Phone number:</strong>
+                    <p class="text-muted">{{ user.phone_number }} </p>
                   </li>
                   <li class="list-group-item">
-                    <b>Friends</b> <a class="float-right">13,287</a>
+                    <strong><i class="fas fa fa-calendar mr-1"></i> Date of join:</strong>
+                    <p class="text-muted">{{ user.date_of_join }}</p>
+                  </li>
+                  <li class="list-group-item">
+                    <strong><i class="fas fa fa-clock mr-1"></i> Last time logged in:</strong>
+                    <p class="text-muted">{{ user.last_login }}</p>
+                  </li>
+                  <li class="list-group-item">
+                    <strong><i class="fas fa fa-birthday-cake mr-1"></i> Date of birth:</strong>
+                    <p class="text-muted">{{ user.date_of_birth }}</p>
                   </li>
                 </ul>
 
@@ -86,17 +64,14 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <strong><i class="fas fa-book mr-1"></i>Education</strong>
-                <p class="text-muted">{{ userinfo.education }}</p>
-                <hr>
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
-                <p class="text-muted">{{ user.address }}, {{ user.city }} , {{ user.country }} </p>
+                <strong><i class="fas fa-book mr-1"></i> Education</strong>
+                <p class="text-muted">{{ user_info.education }}</p>
                 <hr>
                 <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-                <p class="text-muted">{{ userinfo.skills }}</p>
+                <p class="text-muted">{{ user_info.skills }}</p>
                 <hr>
                 <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-                <p class="text-muted">{{ userinfo.bio }}</p>
+                <p class="text-muted">{{ user_info.bio }}</p>
               </div>
               <!-- /.card-body -->
             </div>
@@ -112,47 +87,56 @@
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
+
                   <div class="active tab-pane" id="activity">
                     <!-- Post -->
+                    {% if blog_comments %}
+                      {% for blog, comments in blog_comments %}
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                         {% if user.image %}
+                          <img class="img-circle img-bordered-sm" src="{{ user.image.url }}" alt="{{ user.username }}">
+                        {% endif %}
                         <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                          <a href="#">{{ blog.name }}</a>
                         </span>
-                        <span class="description">Shared publicly - 7:30 PM today</span>
+                        <span class="description">Shared publicly time: -<time>{{ blog.time_of_blog|date:"H:i:s" }}</time></span>
+                        <span class="description">Shared publicly date -<time>{{ blog.time_of_blog|date:"d/m/Y" }}</time></span>
                       </div>
                       <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
-                      </p>
+                      <p>{{ blog.blog_text}}</p>
 
                       <p>
-                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
+                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
                         <span class="float-right">
                           <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> Comments (5)
+                            <i class="far fa-comments mr-1"></i> Comments {{ blog.comments.count }}
                           </a>
                         </span>
                       </p>
 
-                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                      <form class="form-horizontal">
+                        <div class="input-group input-group-sm mb-0">
+                          <input class="form-control form-control-sm" placeholder="Response">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-danger">Send</button>
+                          </div>
+                        </div>
+                      </form>
+
                     </div>
                     <!-- /.post -->
+                  {% endfor %}
+                  {% endif %}
                   </div>
                 </div>
-              </div>
+                </div>
             </div>
           </div>
         </div>
       </div>
     </section>
+    <!-- /.content -->
   </div>
 </div>
 {% endif %}
