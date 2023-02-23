@@ -6,6 +6,8 @@ from datetime import datetime, timedelta,date
 from django.contrib.auth.decorators import login_required
 from podcast_blog.models import Podcast_Blog
 from django.contrib import messages
+from django.views.generic import ListView
+
 
 def Navbar_footer_menu(request):
     return render(request, "pages/navbar_footer_menu.html", {})
@@ -100,19 +102,23 @@ def edit_user_info(request):
             'user': user_info.user
         })
     return render(request, 'pages/users/edit_user_info.html', {'form': form})
-# def edit_user_info(request, user_id):
-#     user = get_object_or_404(PodcastUser, user_id=user_id)
-#     user_info = user
-#     if request.method == 'POST':
-#         form = UserInfoForm(request.POST, instance=user_info)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('profile_page')
-#     else:
-#         form = UserInfoForm(instance=user_info)
-#     return render(request, 'pages/users/edit_user_info.html', {'form': form, 'user': user})
 
-
-
+# def user_list(request):
+#     users = PodcastUser.objects.all().order_by('username')
+#     user_info_list = []
+#     for user in users:
+#         try:
+#             user_info = UserInfo.objects.get(user=user)
+#         except UserInfo.DoesNotExist:
+#             user_info = None
+#         user_info_list.append(user_info)
+#
+#     context = {
+#         'users': zip(users, user_info_list),
+#     }
+#     return render(request, 'pages/users/contacts.html', context)
 def users_list(request):
-    return render(request,'pages/users/contacts.html')
+    users = PodcastUser.objects.all().order_by('last_name')
+    context = {'users': users}
+    return render(request, 'pages/users/contacts.html', context)
+
