@@ -1,6 +1,6 @@
 from django.contrib.auth import login,logout
-from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, CustomAuthenticationForm,UserEditForm,PasswordForm
+from django.shortcuts import render, redirect,get_object_or_404,reverse
+from .forms import CustomUserCreationForm, CustomAuthenticationForm,UserEditForm,PasswordForm,UserInfoForm
 from .models import PodcastUser, UserInfo
 from datetime import datetime, timedelta,date
 from django.contrib.auth.decorators import login_required
@@ -71,6 +71,8 @@ def profile_page(request):
         user_form = UserEditForm(instance=request.user)
         password_form = PasswordForm(request.user)
 
+    # url = reverse('user:edit_user_info', kwargs={'user_id': request.user.user_id})
+
     return render(request, 'pages/users/profile.html', {
         'user': request.user,
         'user_info': user_info,
@@ -78,7 +80,38 @@ def profile_page(request):
         'like_counts': like_counts,
         'user_form': user_form,
         'password_form': password_form,
+        # 'url': url,
     })
+
+@login_required
+def edit_user_info(request):
+    user_info, created = UserInfo.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = UserInfoForm(request.POST, instance=user_info)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_page')
+    else:
+        form = UserInfoForm(instance=user_info, initial={
+            'bio': user_info.bio,
+             'language': user_info.language,
+            'education': user_info.education,
+            'skills': user_info.skills,
+            'user': user_info.user
+        })
+    return render(request, 'pages/users/edit_user_info.html', {'form': form})
+# def edit_user_info(request, user_id):
+#     user = get_object_or_404(PodcastUser, user_id=user_id)
+#     user_info = user
+#     if request.method == 'POST':
+#         form = UserInfoForm(request.POST, instance=user_info)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('profile_page')
+#     else:
+#         form = UserInfoForm(instance=user_info)
+#     return render(request, 'pages/users/edit_user_info.html', {'form': form, 'user': user})
+
 
 
 def users_list(request):

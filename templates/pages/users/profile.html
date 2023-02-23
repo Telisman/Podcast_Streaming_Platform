@@ -4,7 +4,6 @@
 {% if user.is_authenticated %}
 
   <div class="content-wrapper">
-
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -49,6 +48,7 @@
               <div class="card-header">
                 <h3 class="card-title">About Me</h3>
               </div>
+
               <!-- /.card-header -->
               <div class="card-body">
                 <strong><i class="fas fa-book mr-1"></i> Education</strong>
@@ -77,6 +77,9 @@
                 <strong><i class="far fa-file-alt mr-1"></i> Bio:</strong>
 
                 <p class="text-muted">{{ user_info.bio }}</p>
+              </div>
+              <div class="card-header">
+               <a href="{% url 'edit_user_info'%}"><i class="fa fa-cog" aria-hidden="true"> Edit user info</i></a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -264,9 +267,11 @@
 
                         <p>
                           <label for="id_image">Image:</label>
+                          {% if user.image %}
                           Currently: <a href="{{ user.image.url }}">{{ user.image.url }} </a>
                             <input type="checkbox"  name="image-clear" id="image-clear_id">
                             <label for="image-clear_id">Clear</label><br>
+                           {% endif %}
                             Change:
                             <input type="file"  class="form-control" name="image" accept="image/*" id="id_image">
                         </p>
@@ -298,10 +303,5 @@
     </section>
     <!-- /.content -->
   </div>
-
-
-
-
-
 {% endif %}
 {% endblock %}
