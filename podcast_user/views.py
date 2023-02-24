@@ -1,12 +1,30 @@
 from django.contrib.auth import login,logout
 from django.shortcuts import render, redirect,get_object_or_404,reverse
 from .forms import CustomUserCreationForm, CustomAuthenticationForm,UserEditForm,PasswordForm,UserInfoForm
-from .models import PodcastUser, UserInfo
+from .models import PodcastUser, UserInfo,Country
 from datetime import datetime, timedelta,date
 from django.contrib.auth.decorators import login_required
 from podcast_blog.models import Podcast_Blog,BlogComment
 from django.contrib import messages
 from django.views.generic import ListView
+from django_filters import rest_framework as filters,DateFromToRangeFilter
+from django import forms
+from django.forms import DateInput
+from django.forms.widgets import DateInput, MultiWidget
+
+
+class DateRangeWidget(MultiWidget):
+    def __init__(self, attrs=None):
+        widgets = (
+            DateInput(attrs={'type': 'date'}),
+            DateInput(attrs={'type': 'date'}),
+        )
+        super().__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return [value.start, value.stop]
+        return [None, None]
 
 
 def Navbar_footer_menu(request):
@@ -103,11 +121,33 @@ def edit_user_info(request):
         })
     return render(request, 'pages/users/edit_user_info.html', {'form': form})
 
+class CountryFilter(filters.FilterSet):
+    class Meta:
+        model = Country
+        fields = ['country_name']
 
+class PodcastUserFilter(filters.FilterSet):
+    first_name = filters.CharFilter(lookup_expr='icontains', label='First Name', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Enter first name...'}))
+    last_name = filters.CharFilter(lookup_expr='icontains', label='Last Name', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Enter last name...'}))
+    email = filters.CharFilter(lookup_expr='icontains', label='Email',
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter email...'}))
+    username = filters.CharFilter(lookup_expr='icontains', label='Username', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Enter username...'}))
+    date_of_birth = filters.DateFilter(field_name='date_of_birth', lookup_expr='exact', widget=DateInput(attrs={'class': 'form-control','type': 'date'}))
+    birthday_range = filters.DateFromToRangeFilter(field_name='date_of_birth', widget=DateRangeWidget(),
+                                                   label='Birthday range')
+    country = filters.ModelChoiceFilter(field_name='country', queryset=Country.objects.all(),
+                                        widget=forms.Select(attrs={'class': 'form-control','required': False}))
+class Meta:
+        model = PodcastUser
+        fields = ['first_name', 'last_name', 'email','username','date_of_birth','birthday_range','country']
 @login_required
 def users_list(request):
     users = PodcastUser.objects.all().order_by('last_name')
-    context = {'users': users}
+    user_filter = PodcastUserFilter(request.GET, queryset=PodcastUser.objects.all().order_by('last_name'))
+    context = {'users': users,'user_filter':user_filter}
     return render(request, 'pages/users/contacts.html', context)
 
 @login_required
