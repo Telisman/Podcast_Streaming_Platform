@@ -67,6 +67,9 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
             ],
         },
+        # 'libraries': {
+        #         'custom_filters': 'podcast_user.custom_filters',
+        #     },
     },
 ]
 

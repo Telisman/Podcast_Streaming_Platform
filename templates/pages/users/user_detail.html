@@ -109,12 +109,36 @@
                       <p>
                         <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
                         <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> Comments {{ blog.comments.count }}
-                          </a>
                         </span>
                       </p>
+                      <p>
+                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                          <a href="#" class="nav-link">
+                            <p>
+                              <span class="float-right">
+                                <i class="far fa-comments mr-1"></i> Comments {{ blog.comments.count }}
+                              </span>
+                            </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                            {% for comment in comments %}
+                                <li class="nav-item" style="border-bottom: 1px solid white;">
+                                    <p>{{ comment.comment_text|linebreaks }}</p>
+                                    <small>by {{ comment.comment_user.username }} on {{ comment.time_of_comment }}</small>
+                                   {% empty %}
+                                      <p>No comments yet.</p>
+                                  </li>
 
+                                {% endfor %}
+
+
+                          </ul>
+                        </li>
+                      </ul>
+
+
+                      </p>
                       <form class="form-horizontal">
                         <div class="input-group input-group-sm mb-0">
                           <input class="form-control form-control-sm" placeholder="Response">
@@ -127,6 +151,7 @@
                     </div>
                     <!-- /.post -->
                   {% endfor %}
+
                   {% endif %}
                   </div>
                 </div>

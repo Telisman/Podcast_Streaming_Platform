@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import date,datetime
 from podcast_user.models import PodcastUser
-
+from django.forms import Textarea
 class Podcast_Blog(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500, default="Post something!! (xc")
@@ -18,7 +18,7 @@ class Podcast_Blog(models.Model):
 class BlogComment(models.Model):
     id = models.AutoField(primary_key=True)
     blog = models.ForeignKey(Podcast_Blog, on_delete=models.CASCADE, related_name='comments')
-    comment_text = models.TextField()
+    comment_text = models.TextField( help_text='Enter your comment here.')
     comment_user = models.ForeignKey(PodcastUser, on_delete=models.CASCADE, blank=False, null=False)
     time_of_comment = models.DateTimeField(default=datetime.now)
 
