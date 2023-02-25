@@ -6,10 +6,8 @@ from datetime import datetime, timedelta,date
 from django.contrib.auth.decorators import login_required
 from podcast_blog.models import Podcast_Blog,BlogComment
 from django.contrib import messages
-from django.views.generic import ListView
-from django_filters import rest_framework as filters,DateFromToRangeFilter
+from django_filters import rest_framework as filters
 from django import forms
-from django.forms import DateInput
 from django.forms.widgets import DateInput, MultiWidget
 
 
