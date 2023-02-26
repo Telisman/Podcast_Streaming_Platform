@@ -1,10 +1,40 @@
 {% extends 'navbar_footer_menu.html' %}
 {% load static %}
 {% block content %}
+<link href="{% static 'css/timeline.css' %}" rel="stylesheet">
+
 {% if user.is_authenticated %}
 
     <section class="content" style="margin-left: 14%; margin-top: 5%;">
-      <div class="container-fluid">
+      <div class="container-fluid" style="margin-top: -2%;">
+        <form action="#" id="header-search-people" class="form-area" novalidate="novalidate" autocomplete="off">
+                  <div class="row">
+                      <div class="col-md-10">
+                          <div class="styled-input wide multi">
+                              <div class="first-name" id="input-username">
+                                   <input type="text" name="username" >
+                                  <label>Username</label>
+                              </div>
+                              <div class="last-name" id="input-date-from">
+                                  <input type="date" name="from_date"  value="{{ from_date|default:'' }}"  placeholder=" ">
+                                  <label >Date of post from:</label>
+                              </div>
+                              <div class="city" id="input-date_to">
+                                  <input type="date"  name="to_date" value="{{ to_date|default:'' }}">
+                                   <label >Date of post to:</label>
+                              </div>
+                          </div>
+                          <div class="city" id="input-most-like">
+                              <label >Sort by most likes:</label>
+                              <input type="checkbox"    name="sort_by_likes" {% if sort_by_likes %}checked{% endif %}>
+                          </div>
+                      </div>
+                      <div class="col-md-2 no-pad-left-10">
+                          <button type="submit" class="primary-btn serach-btn" id="submit_btn" style="background-color: #343a40;">SEARCH</button>
+                      </div>
+                  </div>
+                </form>
+
 
         <!-- Timelime example  -->
         <div class="row">
@@ -40,10 +70,10 @@
                                 <ul class="nav nav-treeview col-md-12" >
                                   {% for comment in comments %}
                                       <li class="nav-item" style="border-bottom: 1px solid white;">
-                                          <p>{{ comment.comment_text|linebreaks }}</p>
+                                          <p style="margin-top: 10%;">{{ comment.comment_text|linebreaks }}</p>
                                           <small>by {{ comment.comment_user.username }} on {{ comment.time_of_comment }}</small>
                                          {% empty %}
-                                            <p>No comments yet.</p>
+                                            <p style="margin-top: 10%;">No comments yet.</p>
                                         </li>
                                       {% endfor %}
                                 </ul>
@@ -72,5 +102,6 @@
 
 
 {% endif %}
+
 {% endblock %}
 
