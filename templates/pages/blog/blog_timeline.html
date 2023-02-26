@@ -4,36 +4,89 @@
 <link href="{% static 'css/timeline.css' %}" rel="stylesheet">
 
 {% if user.is_authenticated %}
+    <section class="content" style="margin-left: 14%; margin-top:5%;">
 
-    <section class="content" style="margin-left: 14%; margin-top: 5%;">
-      <div class="container-fluid" style="margin-top: -2%;">
-        <form action="#" id="header-search-people" class="form-area" novalidate="novalidate" autocomplete="off">
-                  <div class="row">
-                      <div class="col-md-10">
-                          <div class="styled-input wide multi">
-                              <div class="first-name" id="input-username">
-                                   <input type="text" name="username" >
-                                  <label>Username</label>
-                              </div>
-                              <div class="last-name" id="input-date-from">
-                                  <input type="date" name="from_date"  value="{{ from_date|default:'' }}"  placeholder=" ">
-                                  <label >Date of post from:</label>
-                              </div>
-                              <div class="city" id="input-date_to">
-                                  <input type="date"  name="to_date" value="{{ to_date|default:'' }}">
-                                   <label >Date of post to:</label>
-                              </div>
-                          </div>
-                          <div class="city" id="input-most-like">
-                              <label >Sort by most likes:</label>
-                              <input type="checkbox"    name="sort_by_likes" {% if sort_by_likes %}checked{% endif %}>
-                          </div>
-                      </div>
-                      <div class="col-md-2 no-pad-left-10">
-                          <button type="submit" class="primary-btn serach-btn" id="submit_btn" style="background-color: #343a40;">SEARCH</button>
-                      </div>
+        <div class="dropdown" style="margin-top: -3%;">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+            Dropdown button
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div class="container-fluid float-right" >
+                     <form method="get" class="float-right">
+                       <div class="row" >
+                           <div class="col-md-10 offset-md-1">
+                             <div class="row ">
+                               <div class="col-3">
+                                   <div class="form-group">
+                                        <label>Username</label>
+                                    <input type="text"  name="username" class="form-control" placeholder="Username...">
+                                  </div>
+                               </div>
+
+                               <div class="col-3">
+                                   <div class="form-group">
+                                       <label >Date of post from:</label>
+                                    <input type="date" name="from_date"   class="form-control" value="{{ from_date|default:'' }}"  placeholder=" ">
+                                  </div>
+                               </div>
+
+                               <div class="col-3">
+                                   <div class="form-group">
+                                        <label >Date of post to:</label>
+                                    <input type="date"  name="to_date"  class="form-control"  value="{{ to_date|default:'' }}">
+                                  </div>
+                               </div>
+
+                               <div class="col-3">
+                                   <div class="form-group" >
+                                    <label >Sort by most likes:</label>
+                                    <input type="checkbox" class="form-control" name="sort_by_likes" {% if sort_by_likes %}checked{% endif %}>
+                                  </div>
+                               </div>
+
+                                 <div class="col-11">
+                                    <button type="submit" class="btn btn-lg btn-default" style="width: 100%;">
+                                 <i class="fa fa-search"></i>
+                               </button>
+                                </div>
+                             </div>
+                           </div>
+                       </div>
+                     </form>
                   </div>
-                </form>
+
+          </div>
+        </div>
+
+
+      <div class="container-fluid">
+<!--        <form action="#" id="header-search-people" class="form-area" novalidate="novalidate" autocomplete="off">-->
+<!--                  <div class="row">-->
+<!--                      <div class="col-md-10">-->
+<!--                          <div class="styled-input wide multi">-->
+<!--                              <div class="first-name" id="input-username">-->
+<!--                                   <input type="text" name="username" >-->
+<!--                                  <label>Username</label>-->
+<!--                              </div>-->
+<!--                              <div class="last-name" id="input-date-from">-->
+<!--                                  <input type="date" name="from_date"  value="{{ from_date|default:'' }}"  placeholder=" ">-->
+<!--                                  <label >Date of post from:</label>-->
+<!--                              </div>-->
+<!--                              <div class="city" id="input-date_to">-->
+<!--                                  <input type="date"  name="to_date" value="{{ to_date|default:'' }}">-->
+<!--                                   <label >Date of post to:</label>-->
+<!--                              </div>-->
+<!--                          </div>-->
+<!--                          <div class="city" id="input-most-like">-->
+<!--                              <label >Sort by most likes:</label>-->
+<!--                              <input type="checkbox"    name="sort_by_likes" {% if sort_by_likes %}checked{% endif %}>-->
+<!--                          </div>-->
+<!--                      </div>-->
+<!--                      <div class="col-md-2 no-pad-left-10">-->
+<!--                          <button type="submit" class="primary-btn serach-btn" id="submit_btn" style="background-color: #343a40;">SEARCH</button>-->
+<!--                      </div>-->
+<!--                  </div>-->
+<!--                </form>-->
 
 
         <!-- Timelime example  -->
