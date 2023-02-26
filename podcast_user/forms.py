@@ -13,9 +13,6 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(label='Email')
 
-
-
-
 class UserEditForm(UserChangeForm):
     password = None
 
