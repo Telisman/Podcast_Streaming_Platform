@@ -78,12 +78,14 @@
                 <div class="timeline-item">
                   <span class="time"><i class="fas fa-clock"></i> {{ blog.time_of_blog|date:"H:i:s" }}</span>
                   <h3 class="timeline-header"><a href="#">Posted by:</a> {{blog.blog_user.username}}</h3>
-                  <div class="timeline-body">{{ blog.blog_text}}
-                          <form action="{% url 'blog-delete' pk=blog.pk %}" method="post">
-                              {% csrf_token %}
-                              <button type="submit" class="float-right btn-tool"><i class="fas fa-times"></i></button>
-                         </form>
-                  </div>
+                    <div class="timeline-body ">{{ blog.blog_text}}</div>
+                    {% if request.user == blog.blog_user %}
+
+                      <form action="{% url 'blog-delete' pk=blog.pk %}" method="post" class="float-right" >
+                          {% csrf_token %}
+                          <button type="submit" class="float-right btn-tool" style="border: None;"><i class="fas fa-times" style="color:red;"></i></button>
+                      </form>
+                    {% endif %}
 
                   <div class="timeline-footer">
                       <span >
