@@ -6,9 +6,9 @@
 {% if user.is_authenticated %}
     <section class="content" style="margin-left: 14%; margin-top:5%;">
 
-        <div class="dropdown" style="margin-top: -3%;">
+        <div class="dropdown" style="margin-top: -3%; margin-bottom:1%;" >
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-            Dropdown button
+            Search manu
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <div class="container-fluid float-right" >
@@ -60,35 +60,6 @@
 
 
       <div class="container-fluid">
-<!--        <form action="#" id="header-search-people" class="form-area" novalidate="novalidate" autocomplete="off">-->
-<!--                  <div class="row">-->
-<!--                      <div class="col-md-10">-->
-<!--                          <div class="styled-input wide multi">-->
-<!--                              <div class="first-name" id="input-username">-->
-<!--                                   <input type="text" name="username" >-->
-<!--                                  <label>Username</label>-->
-<!--                              </div>-->
-<!--                              <div class="last-name" id="input-date-from">-->
-<!--                                  <input type="date" name="from_date"  value="{{ from_date|default:'' }}"  placeholder=" ">-->
-<!--                                  <label >Date of post from:</label>-->
-<!--                              </div>-->
-<!--                              <div class="city" id="input-date_to">-->
-<!--                                  <input type="date"  name="to_date" value="{{ to_date|default:'' }}">-->
-<!--                                   <label >Date of post to:</label>-->
-<!--                              </div>-->
-<!--                          </div>-->
-<!--                          <div class="city" id="input-most-like">-->
-<!--                              <label >Sort by most likes:</label>-->
-<!--                              <input type="checkbox"    name="sort_by_likes" {% if sort_by_likes %}checked{% endif %}>-->
-<!--                          </div>-->
-<!--                      </div>-->
-<!--                      <div class="col-md-2 no-pad-left-10">-->
-<!--                          <button type="submit" class="primary-btn serach-btn" id="submit_btn" style="background-color: #343a40;">SEARCH</button>-->
-<!--                      </div>-->
-<!--                  </div>-->
-<!--                </form>-->
-
-
         <!-- Timelime example  -->
         <div class="row">
           <div class="col-md-12">
@@ -109,30 +80,30 @@
                   <h3 class="timeline-header"><a href="#">Posted by:</a> {{blog.blog_user.username}}</h3>
                   <div class="timeline-body">{{ blog.blog_text}}</div>
                   <div class="timeline-footer">
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
-                        <span class="float-right">
+                      <span >
                           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                               <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                  <p>
-                                    <span class="float-right">
-                                      <i class="far fa-comments mr-1"></i> Comments {{ blog.comments.count }}
-                                    </span>
-                                  </p>
-                                </a>
-                                <ul class="nav nav-treeview col-md-12" >
-                                  {% for comment in comments %}
-                                      <li class="nav-item" style="border-bottom: 1px solid white;">
-                                          <p style="margin-top: 10%;">{{ comment.comment_text|linebreaks }}</p>
-                                          <small>by {{ comment.comment_user.username }} on {{ comment.time_of_comment }}</small>
-                                         {% empty %}
+                                <div class="dropdown" >
+                                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownComments" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                        <span class="float-right">
+                                              <i class="far fa-comments mr-1"></i> Comments {{ blog.comments.count }}
+                                            </span>
+                                      </button>
+                                       <a href="#" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownComments">
+                                        {% for comment in comments %}
+                                             <p style="margin-top: 10%;">{{ comment.comment_text|linebreaks }}</p>
+                                                 <small>by {{ comment.comment_user.username }} on {{ comment.time_of_comment }}</small>
+                                          {% empty %}
                                             <p style="margin-top: 10%;">No comments yet.</p>
-                                        </li>
-                                      {% endfor %}
-                                </ul>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                               </li>
                             </ul>
+
                         </span>
+
                   </div>
                 </div>
               </div>
