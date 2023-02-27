@@ -3,8 +3,12 @@ from .models import Podcast_Blog,BlogComment
 from datetime import datetime, timedelta,date
 from django.db.models import Count
 from .forms import BlogForm
-from django.views.generic import CreateView
+from django.views.generic import CreateView,DeleteView
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import View
+from .models import Podcast_Blog
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class PodcastBlogCreateView(CreateView):
         queryset = Podcast_Blog.objects.all()
@@ -17,6 +21,19 @@ class PodcastBlogCreateView(CreateView):
             kwargs.update({'user_id': self.request.user.user_id})
             return kwargs
 
+# class BlogDeleteView(DeleteView):
+#     model = Podcast_Blog
+#     success_url = reverse_lazy('profile_page')
+#     template_name = 'pages/blog/delete_blog.html'
+
+class BlogDeleteView(LoginRequiredMixin,View):
+    def post(self, request, *args, **kwargs):
+        blog = get_object_or_404(Podcast_Blog, pk=kwargs['pk'])
+        if blog.blog_user != request.user:
+            # If the user is not the author of the blog post, deny access.
+            return redirect('timeline')
+        blog.delete()
+        return redirect('timeline')
 
 def blog_timeline(request):
     username = request.GET.get('username', None)

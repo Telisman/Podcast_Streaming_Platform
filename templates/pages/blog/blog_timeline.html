@@ -78,7 +78,13 @@
                 <div class="timeline-item">
                   <span class="time"><i class="fas fa-clock"></i> {{ blog.time_of_blog|date:"H:i:s" }}</span>
                   <h3 class="timeline-header"><a href="#">Posted by:</a> {{blog.blog_user.username}}</h3>
-                  <div class="timeline-body">{{ blog.blog_text}}</div>
+                  <div class="timeline-body">{{ blog.blog_text}}
+                          <form action="{% url 'blog-delete' pk=blog.pk %}" method="post">
+                              {% csrf_token %}
+                              <button type="submit" class="float-right btn-tool"><i class="fas fa-times"></i></button>
+                         </form>
+                  </div>
+
                   <div class="timeline-footer">
                       <span >
                           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

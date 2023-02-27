@@ -1,0 +1,14 @@
+{% extends 'navbar_footer_menu.html' %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+
+<form method="post" action="">
+  {% csrf_token %}
+  <p>Are you sure you want to delete the "{{ blog.name }}" blog post?</p>
+  <input type="submit" value="Delete">
+</form>
+
+
+{% endif %}
+{% endblock %}
