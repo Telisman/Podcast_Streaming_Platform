@@ -91,7 +91,7 @@
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Add new post</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'add_blog' pk=user.pk %}#timeline" data-toggle="tab">Add new post</a></li>
                   <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
               </div><!-- /.card-header -->
@@ -134,7 +134,15 @@
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="timeline">
                     <!-- The timeline -->
+                    <div class="container">
+                      <h1>Add Blog</h1>
 
+                      <form method="post">
+                        {% csrf_token %}
+                        {{ BlogForm.as_p }}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    </div>
                   </div>
                   <!-- /.tab-pane -->
 
@@ -210,5 +218,12 @@
     </section>
     <!-- /.content -->
   </div>
+<script>
+$(document).ready(function(){
+    $('.nav-tabs a').click(function(){
+        $(this).tab('show');
+    });
+});
+</script>
 {% endif %}
 {% endblock %}

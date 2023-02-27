@@ -16,15 +16,6 @@ class PodcastBlogCreateView(CreateView):
             kwargs = super().get_form_kwargs()
             kwargs.update({'user_id': self.request.user.user_id})
             return kwargs
-    # model = Podcast_Blog
-    # form_class = BlogForm
-    # success_url = reverse_lazy('profile')
-    # template_name = 'pages/blog/add_blog.html'
-    #
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs.update({'request': self.kwargs['pk']})
-    #     return kwargs
 
 
 def blog_timeline(request):
@@ -53,16 +44,3 @@ def blog_timeline(request):
     return render(request, "pages/blog/blog_timeline.html",
                   {'blog_comments': blog_comments, 'sort_by_likes': sort_by_likes, 'from_date': from_date,
                    'to_date': to_date})
-
-#
-# def add_blog(request):
-#     if request.method == 'POST':
-#         form = Add_New_Blog(request.POST)
-#         if form.is_valid():
-#             blog = form.save(commit=False)
-#             blog.blog_user = request.user  # Assumes you have implemented authentication
-#             blog.save()
-#             return redirect('timeline')
-#     else:
-#         add_blog_form = Add_New_Blog()
-#     return render(request, 'pages/users/profile.html', {'add_blog_form': add_blog_form})
