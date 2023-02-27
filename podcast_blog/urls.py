@@ -1,7 +1,7 @@
 from django.urls import re_path,path
-from .views import blog_timeline,add_blog
+from .views import blog_timeline,PodcastBlogCreateView
 
 urlpatterns = [
     path("timeline/",blog_timeline,name='timeline'),
-    path("profile_page/add_new_blog/",add_blog,name='new_blog')
+    path('add_blog/<int:pk>/', PodcastBlogCreateView.as_view(), name='create_blog'),
 ]

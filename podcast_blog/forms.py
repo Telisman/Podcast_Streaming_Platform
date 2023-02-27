@@ -1,24 +1,26 @@
 from django import forms
 from .models import Podcast_Blog
+from podcast_user.models import PodcastUser
 
-class Add_New_Blog(forms.ModelForm):
+class BlogForm(forms.ModelForm):
+    model = Podcast_Blog
+    fields = ('name', 'blog_text')
+    widgets = {
+        'name': forms.TextInput(attrs={'class': 'form-control'}),
+        'blog_text': forms.Textarea(attrs={'class': 'form-control'}),
+    }
+
+    def __init__(self, *args, **kwargs):
+        user_id = kwargs.pop("user_id")
+        super().__init__(*args, **kwargs)
+        self.fields['blog_user'].initial = user_id
+
     class Meta:
         model = Podcast_Blog
-        fields = ['name', 'blog_text']
-        labels = {
-            'name': 'name',
-            'blog_text': 'blog_text',
-        }
+        fields = ('name', 'blog_text', 'blog_user')
         widgets = {
-            'blog_text': forms.Textarea(attrs={'rows': 15, 'required': True}),
-            'name': forms.TextInput(attrs={'placeholder': 'e.g. English, French','required': True}),
+            'blog_user': forms.HiddenInput(),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'blog_text': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
-class DeleteBlogForm(forms.Form):
-    blog_id = forms.IntegerField()
-
-
-class EditBlogForm(forms.ModelForm):
-    class Meta:
-        model = Podcast_Blog
-        fields = ['name', 'blog_text']
