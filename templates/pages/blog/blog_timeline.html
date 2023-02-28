@@ -83,7 +83,7 @@
 
                       <form action="{% url 'blog-delete' pk=blog.pk %}" method="post" class="float-right" >
                           {% csrf_token %}
-                          <button type="submit" class="float-right btn-tool" style="border: None;"><i class="fas fa-times" style="color:red;"></i></button>
+                          <button type="submit" class="float-right btn-tool" style="border: None;" ><i class="fa fa-trash"></i></button>
                       </form>
                     {% endif %}
 
