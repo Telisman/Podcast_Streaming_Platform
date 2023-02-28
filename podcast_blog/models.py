@@ -14,6 +14,11 @@ class Podcast_Blog(models.Model):
     def __str__(self):
         return f"{self.id} , {self.name}, {self.blog_user} "
 
+    def like(self, user):
+        self.likes.add(user)
+
+    def unlike(self, user):
+        self.likes.remove(user)
 
 class BlogComment(models.Model):
     id = models.AutoField(primary_key=True)

@@ -97,7 +97,16 @@
                                               <i class="far fa-comments mr-1"></i> Comments {{ blog.comments.count }}
                                             </span>
                                       </button>
-                                       <a href="#" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                                    {% if request.user.is_authenticated %}
+                                        {% if request.user in blog.likes.all %}
+                                            <a href="{% url 'unlike_blog' blog.id %}" class="link-black text-sm float-right"><i class="fas fa-thumbs-down mr-1"></i> Unlike {{ blog.likes.count }}</a>
+                                        {% else %}
+                                            <a href="{% url 'like_blog' blog.id %}" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                                        {% endif %}
+                                    {% else %}
+                                        <a href="{% url 'login' %}" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                                    {% endif %}
+<!--                                       <a href="#" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>-->
                                     <div class="dropdown-menu" aria-labelledby="dropdownComments">
                                         {% for comment in comments %}
                                              <p style="margin-top: 10%;">{{ comment.comment_text|linebreaks }}</p>
@@ -111,19 +120,17 @@
                             </ul>
 
                         </span>
-
                   </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <input class="form-control form-control-sm col-md-11" type="text" placeholder="Type a comment" ><button type="submit">Comment</button>
+                        <div class="col-md-12">
+                            <form method="post">
+                                     {% csrf_token %}
+                                <div class="row">
+                                    <textarea name="comment_text"class="form-control form-control-sm col-md-11" cols="1" rows="1" required="" id="id_comment_text" spellcheck="false"></textarea>
+                                    <button type="submit" style="background-color:#6c757d; color:white;">Comment</button>
+                                    <input type="hidden" name="blog_id" value="{{ blog.id }}">
+                                </div>
+                            </form>
                         </div>
-                    </div>
-<!--                    <form method="post">-->
-<!--                        {% csrf_token %}-->
-<!--                        {{ comment_form.as_p }}-->
-<!--                        <input type="hidden" name="blog_id" value="{{ blog.id }}">-->
-<!--                        <button type="submit">Post Comment</button>-->
-<!--                    </form>-->
                 </div>
               </div>
               <!-- END timeline item -->
