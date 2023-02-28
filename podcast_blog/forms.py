@@ -1,6 +1,5 @@
 from django import forms
-from .models import Podcast_Blog
-from podcast_user.models import PodcastUser
+from .models import Podcast_Blog,BlogComment
 
 class BlogForm(forms.ModelForm):
     model = Podcast_Blog
@@ -24,3 +23,26 @@ class BlogForm(forms.ModelForm):
             'blog_text': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
+# class BlogCommentForm(forms.ModelForm):
+#     class Meta:
+#         model = BlogComment
+#         fields = ['comment_text']
+#         widgets = {
+#             'comment_text': forms.Textarea(attrs={'placeholder': 'Enter your comment here...'})
+#         }
+
+class BlogCommentForm(forms.ModelForm):
+    class Meta:
+        model = BlogComment
+        fields = ['comment_text']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(BlogCommentForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        comment = super(BlogCommentForm, self).save(commit=False)
+        comment.comment_user = self.user
+        if commit:
+            comment.save()
+        return comment

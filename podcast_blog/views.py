@@ -2,13 +2,18 @@ from django.shortcuts import render,redirect
 from .models import Podcast_Blog,BlogComment
 from datetime import datetime, timedelta,date
 from django.db.models import Count
-from .forms import BlogForm
+from .forms import BlogForm,BlogCommentForm
 from django.views.generic import CreateView,DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import View
 from .models import Podcast_Blog
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
+
+
+
 
 class PodcastBlogCreateView(CreateView):
         queryset = Podcast_Blog.objects.all()
@@ -21,10 +26,6 @@ class PodcastBlogCreateView(CreateView):
             kwargs.update({'user_id': self.request.user.user_id})
             return kwargs
 
-# class BlogDeleteView(DeleteView):
-#     model = Podcast_Blog
-#     success_url = reverse_lazy('profile_page')
-#     template_name = 'pages/blog/delete_blog.html'
 
 class BlogDeleteView(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):
@@ -58,6 +59,25 @@ def blog_timeline(request):
     for blog in blog_posts:
         comments = BlogComment.objects.filter(blog=blog).order_by('-time_of_comment')
         blog_comments.append((blog, comments))
-    return render(request, "pages/blog/blog_timeline.html",
-                  {'blog_comments': blog_comments, 'sort_by_likes': sort_by_likes, 'from_date': from_date,
-                   'to_date': to_date})
+    if request.method == 'POST':
+        comment_form = BlogCommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.comment_user = request.user
+            comment.blog = get_object_or_404(Podcast_Blog, id=request.POST.get('blog_id'))
+            comment.save()
+            return redirect('timeline')
+    else:
+        comment_form = BlogCommentForm()
+
+    context = {
+        'blog_comments': blog_comments,
+        'sort_by_likes': sort_by_likes,
+        'from_date': from_date,
+        'to_date': to_date,
+        'comment_form': comment_form,
+
+    }
+    return render(request, "pages/blog/blog_timeline.html",context)
+
+
