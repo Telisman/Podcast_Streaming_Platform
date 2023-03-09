@@ -24,10 +24,13 @@ class DateRangeWidget(MultiWidget):
             return [value.start, value.stop]
         return [None, None]
 
-
+# Navebar page view, simple html page
 def Navbar_footer_menu(request):
     return render(request, "pages/navbar_footer_menu.html", {})
 
+
+
+# login and register user page and view using forms
 def login_and_register(request):
     if request.method == 'POST':
         register_form = CustomUserCreationForm(request.POST)
@@ -45,18 +48,19 @@ def login_and_register(request):
         login_form = CustomAuthenticationForm()
     return render(request, 'pages/login_and_register.html', {'register_form': register_form, 'login_form': login_form})
 
-
+# Logout Django
 def logout_view(request):
     logout(request)
     return redirect('login_and_register')
 
-
+# Starting page of dashboard panel, display all new users in last 30 days
 def PodcastDashboard(request):
     thirty_days_ago = datetime.now() - timedelta(days=30)
     new_users = PodcastUser.objects.filter(date_of_join__gte=thirty_days_ago)
     return render(request, 'pages/users/podcast_dashboard.html',{'new_users': new_users})
 
 
+# Your personal  profile page
 @login_required
 def profile_page(request):
     try:
@@ -89,18 +93,23 @@ def profile_page(request):
         user_form = UserEditForm(instance=request.user)
         password_form = PasswordForm(request.user)
 
-    # url = reverse('user:edit_user_info', kwargs={'user_id': request.user.user_id})
-
-    return render(request, 'pages/users/profile.html', {
+    followers_count = request.user.followers.count()
+    following_count = request.user.following.count()
+    context = {
         'user': request.user,
         'user_info': user_info,
         'blog_posts': blog_posts,
         'like_counts': like_counts,
         'user_form': user_form,
         'password_form': password_form,
-        # 'url': url,
-    })
+        'followers_count': followers_count,
+        'following_count': following_count,
+    }
+    return render(request, 'pages/users/profile.html', context)
 
+
+
+# Edit your info page
 @login_required
 def edit_user_info(request):
     user_info, created = UserInfo.objects.get_or_create(user=request.user)
@@ -119,10 +128,14 @@ def edit_user_info(request):
         })
     return render(request, 'pages/users/edit_user_info.html', {'form': form})
 
+# Django filters set filter for Country
 class CountryFilter(filters.FilterSet):
     class Meta:
         model = Country
         fields = ['country_name']
+
+
+# Django filters set filter for Users
 
 class PodcastUserFilter(filters.FilterSet):
     first_name = filters.CharFilter(lookup_expr='icontains', label='First Name', widget=forms.TextInput(
@@ -141,37 +154,17 @@ class PodcastUserFilter(filters.FilterSet):
 class Meta:
         model = PodcastUser
         fields = ['first_name', 'last_name', 'email','username','date_of_birth','birthday_range','country']
+
+
+# Display all users
 @login_required
 def users_list(request):
     users = PodcastUser.objects.all().order_by('last_name')
     user_filter = PodcastUserFilter(request.GET, queryset=PodcastUser.objects.all().order_by('last_name'))
     context = {'users': users,'user_filter':user_filter}
     return render(request, 'pages/users/contacts.html', context)
-#
-# @login_required
-# def user_detail(request, user_id):
-#     user = get_object_or_404(PodcastUser, user_id=self.kwargs['pk'])
-#     try:
-#         user_info = UserInfo.objects.get(user=user)
-#     except UserInfo.DoesNotExist:
-#         user_info = ''
-#     blogs = Podcast_Blog.objects.filter(blog_user=user).order_by('-time_of_blog')
-#     blog_comments = []
-#     for blog in blogs:
-#         comments = BlogComment.objects.filter(blog=blog).order_by('-time_of_comment')
-#         blog_comments.append((blog, comments))
-#
-#     followers_count = user.followers.count()
-#     following_count = user.following.count()
-#     context = {
-#         'user': user,
-#         'followers_count': followers_count,
-#         'following_count': following_count,
-#         'user_info': user_info,
-#         'blog_comments': blog_comments,
-#     }
-#     return render(request, 'pages/users//user_detail.html', context)
 
+# Select user and get his info, set up following options(follow, unfollow)
 class User_Detail_View(DetailView):
     model = PodcastUser
     template_name = 'pages/users/user_detail.html'
@@ -189,7 +182,6 @@ class User_Detail_View(DetailView):
             blog_comments.append((blog, comments))
         followers_count = page_user.followers.count()
         following_count = page_user.following.count()
-        # context["page_user"] = page_user
         context = {
             'page_user': page_user,
             'followers_count': followers_count,
@@ -199,7 +191,7 @@ class User_Detail_View(DetailView):
         }
         return context
 
-
+# fallowing settings after submiting
 @login_required
 def follow_user(request, pk):
     user_to_follow = get_object_or_404(PodcastUser, user_id=pk)
@@ -207,6 +199,7 @@ def follow_user(request, pk):
     messages.success(request, f"You now follow new user!")
     return redirect('users_list')
 
+# unfollow settings after submiting
 @login_required
 def unfollow_user(request, pk):
     user_to_unfollow = get_object_or_404(PodcastUser, user_id=pk)
