@@ -163,14 +163,22 @@
 
 
                       </p>
-                      <form class="form-horizontal">
-                        <div class="input-group input-group-sm mb-0">
-                          <input class="form-control form-control-sm" placeholder="Response">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger">Send</button>
-                          </div>
-                        </div>
-                      </form>
+<!--                      <form class="form-horizontal">-->
+<!--                        <div class="input-group input-group-sm mb-0">-->
+<!--                          <input class="form-control form-control-sm" placeholder="Response">-->
+<!--                          <div class="input-group-append">-->
+<!--                            <button type="submit" class="btn btn-danger">Send</button>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </form>-->
+                        <form method="post">
+                            {% csrf_token %}
+                                <div class="row">
+                                    <textarea name="comment_text"class="form-control form-control-sm col-md-11" cols="1" rows="1" required="" id="id_comment_text" spellcheck="false"></textarea>
+                                    <button type="submit" class="btn btn-danger">Send</button>
+                                    <input type="hidden" name="blog_id" value="{{ blog.id }}">
+                                </div>
+                            </form>
 
                     </div>
                     <!-- /.post -->

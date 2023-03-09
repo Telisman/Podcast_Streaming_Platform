@@ -1,5 +1,5 @@
 from django.contrib.auth import login,logout
-from django.shortcuts import render, redirect,get_object_or_404,reverse
+from django.shortcuts import render, redirect,get_object_or_404,reverse,HttpResponseRedirect
 from .forms import CustomUserCreationForm, CustomAuthenticationForm,UserEditForm,PasswordForm,UserInfoForm
 from .models import PodcastUser, UserInfo,Country
 from datetime import datetime, timedelta,date
@@ -188,8 +188,19 @@ class User_Detail_View(DetailView):
             'following_count': following_count,
             'user_info': user_info,
             'blog_comments': blog_comments,
+            'comment_form': BlogCommentForm(user=self.request.user),
         }
         return context
+
+    def add_comment(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            comment_form = BlogCommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.comment_user = request.user
+                comment.blog = get_object_or_404(Podcast_Blog, id=request.POST.get('blog_id'))
+                comment.save()
+                return redirect('timeline')
 
 # fallowing settings after submiting
 @login_required
