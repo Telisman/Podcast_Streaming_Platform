@@ -9,7 +9,7 @@ from django.contrib import messages
 from django_filters import rest_framework as filters
 from django import forms
 from django.forms.widgets import DateInput, MultiWidget
-
+from django.views.generic import DeleteView,DetailView
 
 class DateRangeWidget(MultiWidget):
     def __init__(self, attrs=None):
@@ -147,18 +147,69 @@ def users_list(request):
     user_filter = PodcastUserFilter(request.GET, queryset=PodcastUser.objects.all().order_by('last_name'))
     context = {'users': users,'user_filter':user_filter}
     return render(request, 'pages/users/contacts.html', context)
+#
+# @login_required
+# def user_detail(request, user_id):
+#     user = get_object_or_404(PodcastUser, user_id=self.kwargs['pk'])
+#     try:
+#         user_info = UserInfo.objects.get(user=user)
+#     except UserInfo.DoesNotExist:
+#         user_info = ''
+#     blogs = Podcast_Blog.objects.filter(blog_user=user).order_by('-time_of_blog')
+#     blog_comments = []
+#     for blog in blogs:
+#         comments = BlogComment.objects.filter(blog=blog).order_by('-time_of_comment')
+#         blog_comments.append((blog, comments))
+#
+#     followers_count = user.followers.count()
+#     following_count = user.following.count()
+#     context = {
+#         'user': user,
+#         'followers_count': followers_count,
+#         'following_count': following_count,
+#         'user_info': user_info,
+#         'blog_comments': blog_comments,
+#     }
+#     return render(request, 'pages/users//user_detail.html', context)
+
+class User_Detail_View(DetailView):
+    model = PodcastUser
+    template_name = 'pages/users/user_detail.html'
+    def get_context_data(self, *args, **kwargs):
+        context = super(User_Detail_View, self).get_context_data(*args, **kwargs)
+        page_user = get_object_or_404(PodcastUser, user_id=self.kwargs['pk'])
+        try:
+            user_info = UserInfo.objects.get(user=page_user)
+        except UserInfo.DoesNotExist:
+            user_info = ''
+        blogs = Podcast_Blog.objects.filter(blog_user=page_user).order_by('-time_of_blog')
+        blog_comments = []
+        for blog in blogs:
+            comments = BlogComment.objects.filter(blog=blog).order_by('-time_of_comment')
+            blog_comments.append((blog, comments))
+        followers_count = page_user.followers.count()
+        following_count = page_user.following.count()
+        # context["page_user"] = page_user
+        context = {
+            'page_user': page_user,
+            'followers_count': followers_count,
+            'following_count': following_count,
+            'user_info': user_info,
+            'blog_comments': blog_comments,
+        }
+        return context
+
 
 @login_required
-def user_detail(request, user_id):
-    user = get_object_or_404(PodcastUser, pk=user_id)
-    try:
-        user_info = UserInfo.objects.get(user=user)
-    except UserInfo.DoesNotExist:
-        user_info = ''
-    blogs = Podcast_Blog.objects.filter(blog_user=user).order_by('-time_of_blog')
-    blog_comments = []
-    for blog in blogs:
-        comments = BlogComment.objects.filter(blog=blog).order_by('-time_of_comment')
-        blog_comments.append((blog, comments))
-    context = {'user': user, 'user_info': user_info, 'blog_comments': blog_comments}
-    return render(request, 'pages/users//user_detail.html', context)
+def follow_user(request, pk):
+    user_to_follow = get_object_or_404(PodcastUser, user_id=pk)
+    request.user.followers.add(user_to_follow)
+    messages.success(request, f"You now follow new user!")
+    return redirect('users_list')
+
+@login_required
+def unfollow_user(request, pk):
+    user_to_unfollow = get_object_or_404(PodcastUser, user_id=pk)
+    request.user.followers.remove(user_to_unfollow)
+    messages.success(request, f"You unfollow user, are you sure about that?!")
+    return redirect('users_list')

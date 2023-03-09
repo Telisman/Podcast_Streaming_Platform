@@ -6,7 +6,13 @@
   <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
-
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       <!-- Default box -->
       <div class="container-fluid">
          <form method="get">

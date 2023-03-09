@@ -31,6 +31,9 @@ class PodcastUser(AbstractUser):
     email = models.EmailField(max_length=30,
                               validators=[RegexValidator(regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.["r"a-zA-Z0-9-.]+$",
                                                          message='please enter the correct format')],unique=True)
+    followers = models.ManyToManyField('self', symmetrical=False, related_name='following', blank=True )
+
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name','username','country']
 

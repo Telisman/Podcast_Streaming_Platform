@@ -126,7 +126,7 @@
                                      {% csrf_token %}
                                 <div class="row">
                                     <textarea name="comment_text"class="form-control form-control-sm col-md-11" cols="1" rows="1" required="" id="id_comment_text" spellcheck="false"></textarea>
-                                    <button type="submit" style="background-color:#6c757d; color:white;">Comment</button>
+                                    <button type="submit" class="btn btn-danger">Send</button>
                                     <input type="hidden" name="blog_id" value="{{ blog.id }}">
                                 </div>
                             </form>
