@@ -23,14 +23,6 @@ class BlogForm(forms.ModelForm):
             'blog_text': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
-# class BlogCommentForm(forms.ModelForm):
-#     class Meta:
-#         model = BlogComment
-#         fields = ['comment_text']
-#         widgets = {
-#             'comment_text': forms.Textarea(attrs={'placeholder': 'Enter your comment here...'})
-#         }
-
 class BlogCommentForm(forms.ModelForm):
     class Meta:
         model = BlogComment

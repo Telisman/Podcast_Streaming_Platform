@@ -82,11 +82,13 @@ def like_blog(request, blog_id):
     blog = Podcast_Blog.objects.get(id=blog_id)
     if request.user.is_authenticated:
         blog.like(request.user)
-    return redirect('timeline')
+    context = {'blog': blog}
+    return render(request, 'pages/blog/blog_timeline.html', context)
 
 
 def unlike_blog(request, blog_id):
     blog = Podcast_Blog.objects.get(id=blog_id)
     if request.user.is_authenticated:
         blog.unlike(request.user)
-    return redirect('timeline')
+    context = {'blog': blog}
+    return render(request, 'pages/blog/blog_timeline.html', context)
