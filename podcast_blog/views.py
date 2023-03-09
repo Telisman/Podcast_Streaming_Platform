@@ -12,9 +12,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 
-
-
-
 class PodcastBlogCreateView(CreateView):
         queryset = Podcast_Blog.objects.all()
         form_class = BlogForm

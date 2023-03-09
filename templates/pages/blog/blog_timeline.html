@@ -77,7 +77,7 @@
                 <i class="fas fa-envelope bg-blue"></i>
                 <div class="timeline-item">
                   <span class="time"><i class="fas fa-clock"></i> {{ blog.time_of_blog|date:"H:i:s" }}</span>
-                  <h3 class="timeline-header"><a href="#">Posted by:</a> {{blog.blog_user.username}}</h3>
+                  <h3 class="timeline-header"><a href="{% url 'user_detail' blog.blog_user.user_id %}">Posted by:</a> {{blog.blog_user.username}}</h3>
                     <div class="timeline-body ">{{ blog.blog_text}}</div>
                     {% if request.user == blog.blog_user %}
 
