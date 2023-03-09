@@ -97,16 +97,15 @@
                                               <i class="far fa-comments mr-1"></i> Comments {{ blog.comments.count }}
                                             </span>
                                       </button>
-                                    {% if request.user.is_authenticated %}
-                                        {% if request.user in blog.likes.all %}
-                                            <a href="{% url 'unlike_blog' blog.id %}" class="link-black text-sm float-right"><i class="fas fa-thumbs-up mr-1"></i> Unlike {{ blog.likes.count }}</a>
+                                        {% if request.user.is_authenticated %}
+                                            {% if request.user in blog.likes.all %}
+                                                <a href="{% url 'unlike_blog' blog.id %}" class="link-black text-sm float-right"><i class="fas fa-thumbs-up mr-1"></i> Unlike {{ blog.likes.count }}</a>
+                                            {% else %}
+                                                <a href="{% url 'like_blog' blog.id %}" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                                            {% endif %}
                                         {% else %}
-                                            <a href="{% url 'like_blog' blog.id %}" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                                            <a href="{% url 'login' %}" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
                                         {% endif %}
-                                    {% else %}
-                                        <a href="{% url 'login' %}" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
-                                    {% endif %}
-<!--                                       <a href="#" class="link-black text-sm float-right"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>-->
                                     <div class="dropdown-menu" aria-labelledby="dropdownComments">
                                         {% for comment in comments %}
                                              <p style="margin-top: 10%;">{{ comment.comment_text|linebreaks }}</p>

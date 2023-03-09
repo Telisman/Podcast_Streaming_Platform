@@ -1,6 +1,6 @@
 from django.urls import re_path,path,include
 from .views import login_and_register,logout_view,PodcastDashboard,Navbar_footer_menu,profile_page,users_list,edit_user_info,follow_user,unfollow_user,User_Detail_View
-# from podcast_blog.views import BlogDeleteView
+from podcast_blog.views import like_blog,unlike_blog
 
 
 urlpatterns = [
@@ -15,6 +15,8 @@ urlpatterns = [
     path('user/<int:pk>/', User_Detail_View.as_view(), name='user_detail'),
     path('user/<int:pk>/follow/', follow_user, name='follow_user'),
     path('user/<int:pk>/unfollow/', unfollow_user, name='unfollow_user'),
+    path('user/<int:blog_id>/like/', like_blog, name='like_blog'),
+    path('user/<int:blog_id>/unlike/', unlike_blog, name='unlike_blog'),
     # path('blog/<int:pk>/delete/', BlogDeleteView.as_view(), name='blog_delete'),
     # path('ViewPodcast/', ViewPodcast.as_view(), name="ViewPodcast"),
     # path('confirm_user_request/<int:user_id>/', confirm_user_request, name='confirm_user_request'),

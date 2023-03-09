@@ -125,9 +125,15 @@
                       <p>{{ blog.blog_text}}</p>
 
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
-                        <span class="float-right">
-                        </span>
+                         {% if request.user.is_authenticated %}
+                                 {% if request.user in blog.likes.all %}
+                                    <a href="{% url 'unlike_blog' blog.id %}" class="link-black text-sm"><i class="fas fa-thumbs-up mr-1"></i> Unlike {{ blog.likes.count }}</a>
+                                 {% else %}
+                                    <a href="{% url 'like_blog' blog.id %}" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                                 {% endif %}
+                          {% else %}
+                                  <a href="{% url 'login' %}" class="link-black text-sm "><i class="far fa-thumbs-up mr-1"></i> Like {{ blog.likes.count }}</a>
+                          {% endif %}
                       </p>
                       <p>
                      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
