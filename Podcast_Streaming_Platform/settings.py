@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "podcast_user",
     "basic_pages",
     "podcast_blog",
+    "podcast",
 ]
 
 MIDDLEWARE = [
