@@ -84,7 +84,7 @@
                 <hr>
                 <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
                 <p class="text-muted">{{ user_info.bio }}</p>
-                <p class="text-muted">Followers: {{ followers_count }}</p>
+                <p class="text-muted">Followers: {{ request.user.followers.count }}</p>
                 <p class="text-muted">Following: {{ following_count }}</p>
               </div>
               <!-- /.card-body -->
