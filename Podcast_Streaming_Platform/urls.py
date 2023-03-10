@@ -11,5 +11,7 @@ urlpatterns = [
     path('basic/', include('basic_pages.urls')),
     path('blog/', include('podcast_blog.urls')),
     path('podcast/', include('podcast.urls')),
+    path('api_user/', include('podcast_user.serializers_urls')),
+    path('api_blog/', include('podcast_blog.serializers_urls')),
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
