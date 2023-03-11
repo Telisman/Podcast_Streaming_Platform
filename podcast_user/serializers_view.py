@@ -19,16 +19,6 @@ class CountryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
 
-
-
-class PodcastUserList(generics.ListCreateAPIView):
-    queryset = PodcastUser.objects.all()
-    serializer_class = PodcastUserSerializer
-
-class PodcastUserDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PodcastUser.objects.all()
-    serializer_class = PodcastUserSerializer
-
 class UserInfoList(generics.ListCreateAPIView):
     queryset = UserInfo.objects.all()
     serializer_class = UserInfoSerializer
