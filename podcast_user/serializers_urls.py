@@ -15,5 +15,5 @@ urlpatterns = [
     path('users/', serializers_view.api_detail_users_view),
     path('user/<int:pk>/', serializers_view.api_detail_user_view),
     path('user/edit/<int:pk>/', serializers_view.api_update_user_view),
-
+    path('user/delete/<int:pk>/', serializers_view.api_delete_user),
 ]

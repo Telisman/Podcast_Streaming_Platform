@@ -96,3 +96,20 @@ def api_update_user_view(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@login_required
+def api_delete_user(request, pk):
+    try:
+        user = PodcastUser.objects.get(pk=pk)
+    except PodcastUser.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'DELETE':
+        operation = user.delete()
+        data = {}
+        if operation:
+            data["success"] = "delete successful"
+        else:
+            data["failure"] = "delete failed"
+        return Response(data=data)
+
