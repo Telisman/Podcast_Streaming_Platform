@@ -1,12 +1,15 @@
 from django.urls import path
-from .serializers_view import  BlogCommentList, BlogCommentDetail,Podcast_BlogList,Podcast_BlogDetail
+from podcast_blog import serializers_view
 
 
 urlpatterns = [
+    # view
+    path('blogs/', serializers_view.api_detail_blogs_view),
+    path('blogs/<int:pk>/', serializers_view.api_detail_blog_view),
+    path('comments/', serializers_view.api_detail_comments_view),
+    path('comment/<int:pk>/', serializers_view.api_detail_comment_view),
+    #edit
+    path('blogs/', serializers_view.api_detail_blogs_view),
 
-    path('blog-comments/', BlogCommentList.as_view(), name='blog-comment-list'),
-    path('blog-comments/<int:pk>/', BlogCommentDetail.as_view(), name='blog-comment-detail'),
-    path('podcast-blogs/', Podcast_BlogList.as_view(), name='podcast-blog-list'),
-    path('podcast-blogs/<int:pk>/', Podcast_BlogDetail.as_view(), name='podcast-blog-detail'),
-
+    #delete
 ]

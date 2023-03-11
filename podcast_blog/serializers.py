@@ -5,7 +5,10 @@ from podcast_user.serializers import PodcastUserSerializer
 
 
 class BlogCommentSerializer(serializers.ModelSerializer):
-    comment_user = PodcastUserSerializer(read_only=True)
+    comment_user = serializers.SerializerMethodField()
+
+    def get_comment_user(self, obj):
+        return obj.comment_user.username
 
     class Meta:
         model = BlogComment
@@ -13,9 +16,13 @@ class BlogCommentSerializer(serializers.ModelSerializer):
 
 
 class Podcast_BlogSerializer(serializers.ModelSerializer):
-    blog_user = PodcastUserSerializer(read_only=True)
+    blog_user = serializers.SerializerMethodField()
     comments = BlogCommentSerializer(many=True, read_only=True)
+
+    def get_blog_user(self, obj):
+        return obj.blog_user.username
 
     class Meta:
         model = Podcast_Blog
         fields = ['id', 'name', 'time_of_blog', 'blog_text', 'blog_user', 'likes', 'comments']
+
