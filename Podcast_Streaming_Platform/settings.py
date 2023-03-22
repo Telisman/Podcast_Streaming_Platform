@@ -157,3 +157,5 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'davortelisman@gmail.com'
 EMAIL_HOST_PASSWORD = 'phmpbovuuybptdur'
 EMAIL_USE_TLS = True
+
+
