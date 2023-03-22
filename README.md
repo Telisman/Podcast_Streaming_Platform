@@ -76,4 +76,4 @@ DELETE /api_blog/blog/delete/<int:pk>/ - Deletes a specific blog post.
 DELETE /api_blog/comment/delete/<int:pk>/ - Deletes a specific blog post.
 ```
 Looks of podcast_graph  schemes in neo4j app
-![](../podcast_graph.png)
+![podcast_graph](https://user-images.githubusercontent.com/23407190/225301971-dbfb625f-b163-4756-ab59-ff4e36d6abce.png)
